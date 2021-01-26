@@ -2,18 +2,30 @@ package com.tdd.de.TestDrivenDevelopment;
 
 public class Sum implements Expression {
 
-	Money augmend;
-	Money addmend;
-	public Sum(Money augmend, Money addmend) {
+	Expression augmend;
+	Expression addmend;
+	public Sum(Expression augmend, Expression addmend) {
 		super();
 		this.augmend = augmend;
 		this.addmend = addmend;
 	}
 	
 	@Override
-	public Money reduce(Bank bank, String currency) {
-		int amount= augmend.amount + addmend.amount;
-		return new Money(amount,currency);
+	public Money reduce(Bank bank, String to) {
+		int amount= augmend.reduce(bank, to).amount + addmend.reduce(bank, to).amount;
+		return new Money(amount,to);
 	}
+
+	@Override
+	public Expression plus(Expression addend) {
+		
+		return new Sum(this,addmend);
+	}
+
+	@Override
+	public Expression times(int multiplier) {
+		return new Sum(augmend.times(multiplier),addmend.times(multiplier));
+	}
+	
 	
 }
