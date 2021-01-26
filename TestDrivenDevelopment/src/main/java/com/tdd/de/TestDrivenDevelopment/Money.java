@@ -1,6 +1,6 @@
 package com.tdd.de.TestDrivenDevelopment;
 
-public abstract class Money {
+public class Money {
 
 	protected int amount;
 	protected String currency;
@@ -13,8 +13,6 @@ public abstract class Money {
 	protected String currency() {
 		return currency;
 	}
-
-	public abstract Money times(int multiplier);
 
 	public static Money dollar(int amount) {
 		return new Dollar(amount, "USD");
@@ -29,21 +27,24 @@ public abstract class Money {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + amount;
+		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
 		return result;
 	}
 
+	
+    public boolean equals(Object object) {
+        Money money = (Money) object;
+        return amount == money.amount
+                && this.currency == money.currency;
+    }
+
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Money other = (Money) obj;
-		if (amount != other.amount)
-			return false;
-		return true;
+	public String toString() {
+		return "Money [amount=" + amount + ", currency=" + currency + "]";
+	}
+
+	public Money times(int multiplier) {
+		return new Money(amount * multiplier,this.currency);
 	}
 
 }
