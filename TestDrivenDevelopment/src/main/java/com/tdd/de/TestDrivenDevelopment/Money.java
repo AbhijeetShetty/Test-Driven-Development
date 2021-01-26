@@ -1,6 +1,6 @@
 package com.tdd.de.TestDrivenDevelopment;
 
-public class Money {
+public class Money implements Expression {
 
 	protected int amount;
 	protected String currency;
@@ -38,4 +38,11 @@ public class Money {
 		return new Money(amount * multiplier,this.currency);
 	}
 
+	public Expression plus(Money addend) {
+		return new Sum(this, addend);
+	}
+	
+	public Money reduce(String to) {
+		return this;
+	}
 }
